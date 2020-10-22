@@ -1,0 +1,4 @@
+version_control: hg
+src_repo: http://hg.code.sf.net/p/zbar/code
+tag_prefix: "^"
+separator: "."
