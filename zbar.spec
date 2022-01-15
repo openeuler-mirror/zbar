@@ -1,6 +1,6 @@
 Name:		zbar
 Version:	0.22
-Release:	1
+Release:	2
 Summary:	Bar code reader
 License:	LGPLv2+
 URL:		http://zbar.sourceforge.net/
@@ -62,7 +62,6 @@ scanning widget.
 %setup -q
 
 %build
-autoreconf -vfi
 %configure --without-java --with-graphicsmagick --without-python2 --docdir=%{_docdir}/zbar-%{version}
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -122,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT/usr/share/doc/zbar-%{version}/
 %{_includedir}/zbar/QZBar*.h
 
 %changelog
+* Sat Jan 15 2022 Chen Chen <chen_aka_jan@163.com> - 0.22-2
+- remove autoreconf for fix build error
+
 * Thu Oct 22 2020 caodongxia <caodongxia@huawei.com> - 0.22-1
 - update package from 0.20.1 to 0.22
 
