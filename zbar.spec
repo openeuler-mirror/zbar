@@ -1,6 +1,6 @@
 Name:		zbar
-Version:	0.22
-Release:	2
+Version:	0.23.90
+Release:	1
 Summary:	Bar code reader
 License:	LGPLv2+
 URL:		http://zbar.sourceforge.net/
@@ -76,10 +76,11 @@ rm -rf $RPM_BUILD_ROOT/usr/share/doc/zbar-%{version}/
 %ldconfig_scriptlets devel
 %ldconfig_scriptlets gtk
 %ldconfig_scriptlets qt
+%find_lang %{name}
 
-%files
-%doc NEWS README.md INSTALL.md
-%license COPYING LICENSE
+%files -f %{name}.lang
+%doc NEWS.md README.md INSTALL.md
+%license COPYING LICENSE.md
 %{_bindir}/zbarimg
 %{_bindir}/zbarcam
 %{_libdir}/libzbar.so.*
@@ -87,7 +88,7 @@ rm -rf $RPM_BUILD_ROOT/usr/share/doc/zbar-%{version}/
 %{_sysconfdir}/dbus-1/system.d/org.linuxtv.Zbar.conf
 
 %files devel
-%doc HACKING TODO
+%doc HACKING.md TODO.md
 %{_libdir}/libzbar.so
 %{_libdir}/pkgconfig/zbar.pc
 %dir %{_includedir}/zbar
@@ -121,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT/usr/share/doc/zbar-%{version}/
 %{_includedir}/zbar/QZBar*.h
 
 %changelog
+* Thu Apr 14 2022 YukariChiba <i@0x7f.cc> - 0.23.90-1
+- Upgrade version to 0.23.90
+
 * Sat Jan 15 2022 Chen Chen <chen_aka_jan@163.com> - 0.22-2
 - remove autoreconf for fix build error
 
