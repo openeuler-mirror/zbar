@@ -1,0 +1,35 @@
+--- python/enum.c~	2022-01-12 10:07:02.151116991 -0600
++++ python/enum.c	2022-01-12 10:14:04.093001534 -0600
+@@ -23,6 +23,12 @@
+ 
+ #include "zbarmodule.h"
+ 
++#if PY_VERSION_HEX < 0x030900A4 && !defined(Py_SET_SIZE)
++static inline void _Py_SET_SIZE(PyVarObject *ob, Py_ssize_t size)
++{ ob->ob_size = size; }
++#define Py_SET_SIZE(ob, size) _Py_SET_SIZE((PyVarObject*)(ob), size)
++#endif
++
+ static char enumitem_doc[] = PyDoc_STR(
+     "simple enumeration item.\n"
+     "\n"
+--- python/enum.c~	2022-01-12 10:16:29.670271662 -0600
++++ python/enum.c	2022-01-12 10:52:11.671258442 -0600
+@@ -58,7 +58,7 @@
+ 
+     /* we assume the "fast path" for a single-digit ints (see longobject.c) */
+     /* this also holds if we get a small_int preallocated long */
+-    Py_SIZE(&self->val) = Py_SIZE(longval);
++    Py_SET_SIZE(&self->val, longval);
+     self->val.ob_digit[0] = longval->ob_digit[0];
+     Py_DECREF(longval);
+ #else
+@@ -148,7 +148,7 @@
+ 
+     /* we assume the "fast path" for a single-digit ints (see longobject.c) */
+     /* this also holds if we get a small_int preallocated long */
+-    Py_SIZE(&self->val) = Py_SIZE(longval);
++    Py_SET_SIZE(&self->val, longval);
+     self->val.ob_digit[0] = longval->ob_digit[0];
+     Py_DECREF(longval);
+ 
