@@ -6,7 +6,7 @@
 
 Name:		zbar
 Version:	0.23.90
-Release:	1
+Release:	2
 Summary:	Bar code reader
 License:	LGPLv2+
 URL:		https://zbar.sourceforge.net/
@@ -120,6 +120,10 @@ on Java Native Interface (JNI) applications using ZBar.
 %patch1 -p0
 
 %build
+%if "%toolchain" == "clang"
+	export CFLAGS="$CFLAGS -Wno-int-conversion"
+	export CXXFLAGS="$CXXFLAGS -Wno-int-conversion"
+%endif
 %configure --with-python=python3 --with-gtk=auto --docdir=%{_docdir}/%{name}-%{version} --with-graphicsmagick --without-xshm --without-xv --enable-codes=ean,databar,code128,code93,code39,codabar,i25,qrcode,sqcode,pdf417
 
 # rpath
@@ -213,6 +217,9 @@ rm -rf $RPM_BUILD_ROOT/usr/share/doc/zbar-%{version}/
 %{_docdir}/test_python.py
 
 %changelog
+* Sat May 06 2023 yoo <sunyuechi@iscas.ac.cn> - 0.23.90-2
+- fix clang build error
+
 * Wed Nov 9 2022 hkgy <kaguyahatu@outlook.com> - 0.23.90-1
 - Upgrade to v0.23.90
 
